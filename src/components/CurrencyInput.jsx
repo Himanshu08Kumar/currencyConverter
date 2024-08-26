@@ -1,10 +1,10 @@
 import React from 'react'
 
-const CurrencyInput = () => {
+const CurrencyInput = ({ symbol, selectSymbol, amount, setAmount }) => {
   return (
     <div className='field'>
         <div className='currency-picker'>
-            <select>
+            <select value={symbol} onChange={(e) => selectSymbol(e.target.value)}>
                 <option >USD</option>
                 <option >INR</option>
                 <option >EUR</option>
@@ -18,7 +18,12 @@ const CurrencyInput = () => {
             </select>
         </div>
         <div className='currency-input'>
-            <input type="number" className='number-input'/>
+            <input
+             type="number"
+            className='number-input'
+            value={amount}
+            onChange={e => setAmount(e.target.value)}
+            />
         </div>
     </div>
   )
