@@ -1,13 +1,23 @@
 import React, {Component} from "react";
 import CurrencyInput from "./components/CurrencyInput";
+import openRates from "./services/openRates"
 
 class App extends Component {
   state={
-    from: 'USD',
-    to: 'INR',
+    from: "USD",
+    to: "INR",
     rate : 1,
     fromAmt: 1,
     toAmt: 1,
+  }
+  componentDidMount = () =>
+    this.fetchRates(this.state.from, this.state.to);
+  
+  fetchRates = async(base = "USD", symbol="INR") =>{
+    const { rate } = await openRates(base, symbol);
+    this.setState({
+      rate
+    })
   }
   setAmount = (amt, field) => {
     if(field === 'from'){
@@ -28,7 +38,7 @@ class App extends Component {
     if(!fromAmt !== null){
       toAmt = parseFloat(fromAmt * this.state.rate).toFixed(2);
     }else{
-      fromAmt = parseFloat(toAmt * this.state.rate).toFixed(2);
+      fromAmt = parseFloat(toAmt / this.state.rate).toFixed(2);
     }
     return key === "from" ? fromAmt : toAmt;
   }
