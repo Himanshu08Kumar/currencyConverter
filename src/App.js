@@ -12,7 +12,13 @@ class App extends Component {
   }
   componentDidMount = () =>
     this.fetchRates(this.state.from, this.state.to);
-  
+  componentDidUpdate= (prevProp, prevState) =>{
+    if(prevState.from !== this.state.from || prevState.to !== this.state.to){
+      {
+        this.fetchRates(this.state.from, this.state.to);
+      }
+    }
+  }
   fetchRates = async(base = "USD", symbol="INR") =>{
     const { rate } = await openRates(base, symbol);
     this.setState({
